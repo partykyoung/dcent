@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
@@ -8,6 +9,7 @@ import {
   currentDeviceAtom,
   currentLanguageAtom,
 } from "../../../app/stores/environment";
+import DetailBottomSheet from "./uis/detail-bottom-sheet";
 
 const isDev = import.meta.env.DEV;
 
@@ -57,7 +59,9 @@ function DappItem({ dapp, onItemClick, language = "ko" }: DappItemProps) {
 function DappList() {
   const currentDevice = useAtomValue(currentDeviceAtom);
   const currentLanguage = useAtomValue(currentLanguageAtom);
-  
+  const [selectedDapp, setSelectedDapp] = useState<DappItemType | undefined>();
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["dappList"],
     queryFn: isDev ? fetchDappListInDev : fetchDappList,
@@ -70,6 +74,16 @@ function DappList() {
       });
     },
   });
+
+  const handleDappClick = (dapp: DappItemType) => {
+    setSelectedDapp(dapp);
+    setIsBottomSheetOpen(true);
+  };
+
+  const handleBottomSheetClose = () => {
+    setIsBottomSheetOpen(false);
+    setSelectedDapp(undefined);
+  };
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -90,8 +104,8 @@ function DappList() {
                   <DappItem
                     key={dapp.id}
                     dapp={dapp}
-                    // onItemClick={onItemClick}
-                    // language={language}
+                    onItemClick={handleDappClick}
+                    language={currentLanguage as "en" | "ko"}
                   />
                 ))}
               </li>
@@ -99,6 +113,12 @@ function DappList() {
           )}
         </>
       )}
+      <DetailBottomSheet
+        isOpen={isBottomSheetOpen}
+        onClose={handleBottomSheetClose}
+        dappInfo={selectedDapp}
+        language={currentLanguage as "en" | "ko"}
+      />
     </div>
   );
 }

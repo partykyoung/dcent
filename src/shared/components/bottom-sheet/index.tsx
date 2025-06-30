@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, forwardRef } from "react";
 
 // Bottom Sheet 스타일의 모달
 interface BottomSheetProps {
@@ -106,6 +106,8 @@ function BottomSheet(
   );
 }
 
+const BottomSheetWithRef = forwardRef(BottomSheet);
+
 // Export both components
-export { Modal, BottomSheet };
-export default Modal;
+export { BottomSheetWithRef as BottomSheet };
+export default BottomSheetWithRef;
