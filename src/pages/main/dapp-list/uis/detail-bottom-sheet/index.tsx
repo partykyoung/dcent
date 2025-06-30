@@ -1,5 +1,5 @@
 import React from "react";
-import { BottomSheet } from "../../../../../shared/components/bottom-sheet";
+import { BottomSheet } from "../../../../../shared/components/ui/bottom-sheet";
 import type { DappItem } from "../../apis/dapp-list/schema";
 
 interface DetailBottomSheetProps {

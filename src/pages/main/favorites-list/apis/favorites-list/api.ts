@@ -30,7 +30,7 @@ export const fetchFavoritesListInDev = (): Promise<FavoriteItem[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(FAVORITES_LIST);
-    }, 1500);
+    }, 3000);
   });
 };
 
