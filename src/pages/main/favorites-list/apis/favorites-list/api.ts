@@ -82,5 +82,3 @@ export const deleteFavorite = async (
 ): Promise<DeleteFavoriteResponse> => {
   return del<DeleteFavoriteResponse>(`/favorites-list/${id}`);
 };
-
-export { FAVORITES_LIST };
