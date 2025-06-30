@@ -1,5 +1,7 @@
+import { MainPage } from "./pages/main";
+
 function App() {
-  return <>{import.meta.env.MODE}</>;
+  return <MainPage />;
 }
 
 export default App;
