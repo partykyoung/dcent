@@ -1,0 +1,36 @@
+/* Banner Swiper 스타일 */
+.banner-swiper {
+  padding-bottom: 2rem;
+}
+
+.banner-swiper .swiper-pagination {
+  bottom: 0;
+}
+
+.banner-swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.banner-swiper .swiper-pagination-bullet-active {
+  background: white;
+  transform: scale(1.2);
+}
+
+/* 유틸리티 클래스 */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

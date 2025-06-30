@@ -29,8 +29,8 @@ const mockBannerData: BannerData[] = [
   {
     id: "map-protocol",
     image: {
-      en: "banner_mapo_en.png",
-      ko: "banner_mapo_kr.png",
+      en: "https://raw.githubusercontent.com/KyungeunKim/iotrust-frontend-homework/main/images/banner_mapo_en.png",
+      ko: "https://raw.githubusercontent.com/KyungeunKim/iotrust-frontend-homework/main/images/banner_mapo_kr.png",
     },
     title: {
       en: "MAP Protocol",
@@ -52,8 +52,8 @@ const mockBannerData: BannerData[] = [
   {
     id: "dcent-wallet",
     image: {
-      en: "banner_dcent.png",
-      ko: "banner_dcent.png",
+      en: "https://raw.githubusercontent.com/KyungeunKim/iotrust-frontend-homework/main/images/banner_dcent.png",
+      ko: "https://raw.githubusercontent.com/KyungeunKim/iotrust-frontend-homework/main/images/banner_dcent.png",
     },
     title: {
       en: "D'CENT Wallet",
@@ -75,8 +75,8 @@ const mockBannerData: BannerData[] = [
   {
     id: "dcent-blog",
     image: {
-      en: "banner_blog.png",
-      ko: "banner_blog.png",
+      en: "https://raw.githubusercontent.com/KyungeunKim/iotrust-frontend-homework/main/images/banner_blog.png",
+      ko: "https://raw.githubusercontent.com/KyungeunKim/iotrust-frontend-homework/main/images/banner_blog.png",
     },
     title: {
       en: "D'CENT Blog",
