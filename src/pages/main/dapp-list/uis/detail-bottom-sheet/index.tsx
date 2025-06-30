@@ -5,6 +5,7 @@ import {
   BottomSheetBackdrop,
   BottomSheetBody,
 } from "../../../../../shared/components/ui/bottom-sheet";
+import { Button } from "../../../../../shared/components/ui/button";
 import type { DappItem } from "../../apis/dapp-list/schema";
 import type { Language } from "../../../../../shared/types/common";
 
@@ -69,12 +70,15 @@ function DetailBottomSheet({
           </div>
 
           <div className="pt-4">
-            <button
+            <Button
               onClick={handleGoClick}
-              className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
+              variant="contained"
+              color="success"
+              size="large"
+              className="w-full"
             >
               {t("go_to_dapp")}
-            </button>
+            </Button>
           </div>
         </div>
       </BottomSheetBody>

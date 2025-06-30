@@ -1,4 +1,5 @@
 import { Modal } from "../../../../../shared/components/ui/modal";
+import { Button } from "../../../../../shared/components/ui/button";
 import { useTranslation } from "react-i18next";
 
 interface DeleteModalProps {
@@ -26,26 +27,29 @@ export function DeleteModal({
           </h2>
           <div className="border-t border-gray-200 mb-4"></div>
           <p className="text-gray-600 leading-relaxed">
-            {siteName 
-              ? t("dapp_favorite_delete_confirm") 
-              : t("dapp_favorite_delete_confirm")
-            }
+            {siteName
+              ? t("dapp_favorite_delete_confirm")
+              : t("dapp_favorite_delete_confirm")}
           </p>
         </div>
 
         <div className="flex gap-3">
-          <button
+          <Button
             onClick={onClose}
-            className="flex-1 px-4 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+            variant="outline"
+            color="secondary"
+            className="flex-1"
           >
             {t("button_cancel")}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onConfirm}
-            className="flex-1 px-4 py-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors font-medium"
+            variant="contained"
+            color="primary"
+            className="flex-1"
           >
             {t("button_confirm")}
-          </button>
+          </Button>
         </div>
       </Modal.Body>
     </Modal>

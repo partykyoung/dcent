@@ -7,6 +7,7 @@ import type { BannerData } from "../apis/banner-list/schema";
 import { useAtomValue } from "jotai";
 import { currentLanguageAtom } from "../../../../app/stores/environment";
 import type { Language } from "../../../../shared/types/common";
+import { Button } from "../../../../shared/components/ui/button";
 
 import "./banner-list-swiper.css";
 
@@ -82,15 +83,18 @@ function BannerListSwiper({ language }: BannerListSwiperProps) {
                       <p className="text-sm mb-4 opacity-90">
                         {banner.description[currentLanguage as Language]}
                       </p>
-                      <button
-                        className="self-start bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-opacity-30 transition-all duration-200"
+                      <Button
+                        variant="outline"
+                        color="secondary"
+                        size="small"
+                        className="self-start bg-white bg-opacity-20 backdrop-blur-sm border-white border-opacity-30 text-white hover:bg-opacity-30"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleBannerClick(banner);
                         }}
                       >
                         {banner.buttonText[currentLanguage as Language]}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </SwiperSlide>
