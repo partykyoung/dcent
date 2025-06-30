@@ -1,5 +1,5 @@
 @reference "tailwindcss";
 
 .banner-item {
-  @apply w-full h-full relative before:content-[''] before:absolute before:inset-0 before:bg-black before:opacity-20;
+  @apply w-full h-full relative before:content-[''] before:absolute before:inset-0 before:bg-black before:opacity-50;
 }

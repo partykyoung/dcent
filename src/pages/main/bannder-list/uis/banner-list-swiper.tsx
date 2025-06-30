@@ -71,7 +71,10 @@ function BannerListSwiper({ language = "ko" }: BannerListSwiperProps) {
   return (
     <div className="w-full h-[160px]">
       <Swiper
-        // autoplay
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
         loop
         modules={[Autoplay]}
         slidesPerView={1}
@@ -80,15 +83,32 @@ function BannerListSwiper({ language = "ko" }: BannerListSwiperProps) {
         {banners.map((banner) => (
           <SwiperSlide key={banner.id} className="w-full h-full">
             <div
-              className="banner-item"
+              className="banner-item cursor-pointer"
               style={{
                 backgroundImage: `url(${banner.image[currentLanguage]})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
+              onClick={() => handleBannerClick(banner)}
             >
-              ㅎㅇ
+              <div className="relative z-10 h-full flex flex-col justify-end p-6 text-white">
+                <h3 className="text-xl font-bold mb-2">
+                  {banner.title[currentLanguage]}
+                </h3>
+                <p className="text-sm mb-4 opacity-90">
+                  {banner.description[currentLanguage]}
+                </p>
+                <button
+                  className="self-start bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-opacity-30 transition-all duration-200"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleBannerClick(banner);
+                  }}
+                >
+                  {banner.buttonText[currentLanguage]}
+                </button>
+              </div>
             </div>
           </SwiperSlide>
         ))}
