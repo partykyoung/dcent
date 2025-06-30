@@ -1,0 +1,22 @@
+{
+    "dapp_favorite_title": "Favorites",
+    "dapp_favorite_delete": "Delete",
+    "dapp_favorite_delete_confirm": "Are you sure you want to delete this site from your favorites?",
+    "dapp_list_title": "List",
+    "go_to_dapp": "Go",
+    "button_cancel": "Cancel",
+    "button_confirm": "Confirm",
+    "loading_list": "Loading list...",
+    "error_load_list": "Unable to load list.",
+    "supported_networks": "Supported Networks:",
+    "description": "Description",
+    "dapp_type": "DApp",
+    "loading_favorites": "Loading favorites...",
+    "error_load_favorites": "Unable to load favorites.",
+    "no_favorites": "No favorites yet.",
+    "no_favorites_description": "Add DApps to your favorites!",
+    "favorites_count": "Favorites ({{count}})",
+    "delete_favorite_confirm": "Do you want to delete from favorites?",
+    "delete_failed": "Delete failed:",
+    "switch_language": "Switch Language"
+}
