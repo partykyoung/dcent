@@ -145,9 +145,9 @@ function FavoritesList() {
       <div className="flex flex-col items-center justify-center p-12">
         <div className="text-6xl mb-4">⭐</div>
         <p className="text-base-content/70 text-center">
-          아직 즐겨찾기가 없습니다.
+          {t('no_favorites')}
           <br />
-          DApp을 즐겨찾기에 추가해보세요!
+          {t('no_favorites_description')}
         </p>
       </div>
     );
@@ -157,7 +157,7 @@ function FavoritesList() {
     <div className="w-full">
       <div className="mb-4 px-4">
         <h2 className="text-lg font-semibold text-base-content">
-          즐겨찾기 ({data.length})
+          {t('favorites_count', { count: data.length })}
         </h2>
       </div>
 
