@@ -1,5 +1,5 @@
 function App() {
-  return <>아이오트러스트</>;
+  return <>{import.meta.env.MODE}</>;
 }
 
 export default App;
