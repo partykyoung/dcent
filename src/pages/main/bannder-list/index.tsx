@@ -6,11 +6,7 @@ import type { Language } from "../../../shared/types/common";
 function BannerList() {
   const currentLanguage = useAtomValue(currentLanguageAtom);
 
-  return (
-    <div className="w-full">
-      <BannerListSwiper language={currentLanguage as Language} />
-    </div>
-  );
+  return <BannerListSwiper language={currentLanguage as Language} />;
 }
 
 export { BannerList };
