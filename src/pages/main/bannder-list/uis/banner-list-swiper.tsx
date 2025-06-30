@@ -4,6 +4,7 @@ import { Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/autoplay";
+import "./banner-list-swiper.css";
 
 import { fetchBannerListInDev, type BannerData } from "../apis/banner-list/api";
 import { useAtomValue } from "jotai";
@@ -79,14 +80,16 @@ function BannerListSwiper({ language = "ko" }: BannerListSwiperProps) {
         {banners.map((banner) => (
           <SwiperSlide key={banner.id} className="w-full h-full">
             <div
-              className="w-full h-full"
+              className="banner-item"
               style={{
                 backgroundImage: `url(${banner.image[currentLanguage]})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
-            ></div>
+            >
+              ㅎㅇ
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
