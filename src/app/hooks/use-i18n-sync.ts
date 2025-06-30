@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAtomValue } from 'jotai';
-import { currentLanguageAtom } from '../../app/stores/environment';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useAtomValue } from "jotai";
+import { currentLanguageAtom } from "../stores/environment";
 
 export function useI18nSync() {
   const { i18n } = useTranslation();

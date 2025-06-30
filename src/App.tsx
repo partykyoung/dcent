@@ -1,9 +1,12 @@
 import { TanstackQueryProvider } from "./app/providers/tanstack-query-provider";
 import { MainPage } from "./pages/main";
-import { useI18nSync } from "./shared/hooks/use-i18n-sync";
+import { useI18nSync } from "./app/hooks/use-i18n-sync";
+import { useDevice } from "./app/hooks/use-device";
+import { useLanguage } from "./app/hooks/use-language";
 
 function App() {
-  // 언어 상태와 i18n 동기화
+  useDevice();
+  useLanguage();
   useI18nSync();
 
   return (
