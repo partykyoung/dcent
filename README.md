@@ -4,7 +4,86 @@
 
 ### Vite + React
 
-### Tailwind CSS
+SSR이나 SEO 같은 세부 기능이 요구되지 않아, 간단하고 빠르게 개발할 수 있는 Vite와 React 조합을 선택했습니다.
+"데이터 노출 조건을 확인하기 위해 visibility라는 옵션을 넣었는데, 이런 방식이 괜찮을까?"처럼 구조나 설계 방향에 대한 검토 용도로도 활용했습니다.
+
+## 구현한 주요 요소 설명
+
+### 1. 다국어 지원 (i18n)
+
+`react-i18next`를 사용하여 한국어/영어 다국어 지원을 구현했습니다.
+- 브라우저 언어 감지 및 기본 언어 설정
+- 우측 상단 토글 버튼으로 언어 전환 가능
+- 모든 텍스트와 DApp 설명이 언어별로 표시
+
+### 2. 환경별 조건부 렌더링
+
+DApp 데이터에 `visibility` 옵션을 도입하여 다양한 조건에 따른 노출 제어를 구현했습니다.
+- **플랫폼별**: `android`, `ios`, `web` 환경에 따른 표시/숨김
+- **언어별**: `ko`, `en` 언어에 따른 표시/숨김  
+- **환경별**: `dev`, `stage`, `prod` 빌드 환경에 따른 표시/숨김
+
+```typescript
+visibility: {
+  platform: { android: true },
+  language: { en: true },
+  environment: { dev: true, stage: true }
+}
+```
+
+### 3. 상태 관리 (Jotai)
+
+전역 상태 관리를 위해 Jotai를 사용했습니다.
+- `currentDeviceAtom`: 현재 디바이스 타입 (android/ios/web)
+- `currentLanguageAtom`: 현재 언어 설정 (ko/en)
+- 각 컴포넌트에서 atom을 구독하여 반응형 UI 구현
+
+### 4. 데이터 페칭 및 캐싱 (TanStack Query)
+
+API 호출과 데이터 캐싱을 위해 TanStack Query를 사용했습니다.
+- 배너, DApp 리스트, 즐겨찾기 데이터 캐싱
+- 낙관적 업데이트로 즐겨찾기 삭제 시 즉시 UI 반영
+- `select` 옵션을 활용한 데이터 필터링
+
+### 5. UI 컴포넌트
+
+재사용 가능한 공통 UI 컴포넌트들을 구현했습니다.
+- **Modal**: 기본 모달 컴포넌트
+- **BottomSheet**: 모바일 친화적인 하단 시트 (Framer Motion 활용)
+- **Button**: variant, color, size 옵션을 가진 버튼 컴포넌트
+
+### 6. 배너 슬라이더 (Swiper)
+
+Swiper.js를 사용하여 자동 재생되는 배너 슬라이더를 구현했습니다.
+- 자동 슬라이드 및 무한 루프
+- 배너 클릭 시 외부 링크 새 창으로 열기
+- 언어별 링크 지원
+
+### 7. 즐겨찾기 기능
+
+사용자가 즐겨찾기를 관리할 수 있는 기능을 구현했습니다.
+- 즐겨찾기 목록 표시
+- 삭제 확인 모달
+- TanStack Query의 낙관적 업데이트로 즉시 UI 반영
+
+### 8. DApp 상세 정보
+
+각 DApp을 클릭하면 하단 시트로 상세 정보를 표시합니다.
+- 지원하는 네트워크 정보 표시
+- 언어별 설명 제공
+- 부드러운 애니메이션 효과 (Framer Motion)
+
+### 9. 반응형 디자인
+
+Tailwind CSS를 활용하여 모바일 우선 반응형 디자인을 구현했습니다.
+- 최대 너비 제한으로 모바일/데스크톱 호환성 확보
+- 터치 친화적인 UI 요소들# Tailwind CSS
+
+빠르게 퍼블리싱하고 반복적인 스타일링 작업을 줄이기 위해 Tailwind CSS를 사용했습니다.
+
+### TanStack Query
+
+낙관적 업데이트가 필요한 부분에서 사용자 경험을 개선할 수 있었고, 동시에 데이터 패칭과 캐싱 관리가 편리해 사용했습니다.
 
 ## 프로젝트 실행 및 빌드 방법 설명
 
@@ -72,8 +151,41 @@ npm run lint
 npm run preview
 ```
 
+## AI 사용
+
+코파일럿을 사용해 작업했습니다.
+필요할 것 같은 컴포넌트가 떠오르면 뼈대를 먼저 작성한 뒤,
+
+```js
+// 예시
+function ModalRoot() {}
+function ModalBackdrop() {}
+function ModalBody() {}
+```
+
+처럼 구조만 만든 다음, “위의 컴포넌트의 내용을 채워줘.”라는 식으로 프롬프트를 작성해 내용을 보완했습니다.
+
+또 다른 방식으로는 다음과 같은 형태의 객체를 먼저 작성한 후,
+
+```json
+{
+  "id": "buy-cryptocurrency",
+  "name": "Buy Cryptocurrency",
+  "icon": "https://raw.githubusercontent.com/KyungeunKim/iotrust-frontend-homework/main/images/icon_buy.png",
+  "description": {
+    "en": "A service that allows you to easily and safely purchase 100+ cryptocurrencies through a network of various partners."
+  },
+  "visibility": {
+    "platform": {
+      "android": true
+    },
+    "language": {
+      "en": true
+    }
+  }
+}
+```
+
+“데이터 노출 조건을 확인하기 위해 visibility라는 옵션을 넣었는데, 이런 방식이 괜찮을까?”처럼 구조나 설계 방향에 대한 검토 용도로도 활용했습니다.
+
 ## 구현한 주요 요소 설명
-
-## 제한 시간 내 구현하지 못한 부분
-
-## 보완하고 싶은 점

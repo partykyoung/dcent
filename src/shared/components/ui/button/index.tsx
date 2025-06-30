@@ -7,7 +7,7 @@ interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants = cva(
-  "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "m-0 inline-flex cursor-pointer items-center justify-center gap-[4px] border border-solid border-transparent bg-transparent p-0",
   {
     variants: {
       variant: {
