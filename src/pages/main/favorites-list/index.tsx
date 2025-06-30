@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 import {
   fetchFavoritesList,
@@ -89,6 +90,7 @@ function FavoriteItemComponent({
 }
 
 function FavoritesList() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -107,7 +109,7 @@ function FavoritesList() {
       queryClient.invalidateQueries({ queryKey: ["favoritesList"] });
     },
     onError: (error) => {
-      console.error("삭제 실패:", error);
+      console.error(t('delete_failed'), error);
       // 에러 토스트나 알림을 여기에 추가할 수 있습니다
     },
     onSettled: () => {
@@ -116,7 +118,7 @@ function FavoritesList() {
   });
 
   const handleDelete = (id: string) => {
-    if (confirm("즐겨찾기에서 삭제하시겠습니까?")) {
+    if (confirm(t('delete_favorite_confirm'))) {
       deleteMutation.mutate(id);
     }
   };
@@ -125,7 +127,7 @@ function FavoritesList() {
     return (
       <div className="flex flex-col items-center justify-center p-12">
         <span className="loading loading-spinner loading-lg" />
-        <p className="mt-4 text-base-content/70">즐겨찾기를 불러오는 중...</p>
+        <p className="mt-4 text-base-content/70">{t('loading_favorites')}</p>
       </div>
     );
   }
@@ -133,7 +135,7 @@ function FavoritesList() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center p-12">
-        <p className="text-error">즐겨찾기를 불러올 수 없습니다.</p>
+        <p className="text-error">{t('error_load_favorites')}</p>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
+import { useTranslation } from "react-i18next";
 
 import { fetchDappList, fetchDappListInDev } from "./apis/dapp-list/api";
 import type { DappItem as DappItemType } from "./apis/dapp-list/schema";
@@ -57,6 +58,7 @@ function DappItem({ dapp, onItemClick, language = "ko" }: DappItemProps) {
 }
 
 function DappList() {
+  const { t } = useTranslation();
   const currentDevice = useAtomValue(currentDeviceAtom);
   const currentLanguage = useAtomValue(currentLanguageAtom);
   const [selectedDapp, setSelectedDapp] = useState<DappItemType | undefined>();
@@ -90,10 +92,10 @@ function DappList() {
       {isLoading && (
         <div className="flex flex-col items-center justify-center p-12">
           <span className="loading loading-spinner loading-lg" />
-          <p className="mt-4 text-base-content/70">목록을 불러오는 중...</p>
+          <p className="mt-4 text-base-content/70">{t('loading_list')}</p>
         </div>
       )}
-      {error && <div>목록을 불러올 수 없습니다.</div>}
+      {error && <div>{t('error_load_list')}</div>}
       {data && (
         <>
           {data.length === 0 && <></>}
