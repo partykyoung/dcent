@@ -94,6 +94,9 @@ function DappList() {
 
   return (
     <div className="w-full">
+      <h2 className="p-4 text-lg font-semibold text-base-content">
+        {t("dapp_list_title")}
+      </h2>
       {isLoading && (
         <div className="flex flex-col items-center justify-center p-12">
           <span className="loading loading-spinner loading-lg" />
