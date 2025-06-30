@@ -10,11 +10,6 @@ export function filterPlatform(
     return true;
   }
 
-  // 현재 디바이스에 대한 설정이 없으면 표시하지 않음
-  if (dapp.visibility.platform[currentDevice] === undefined) {
-    return false;
-  }
-
   // 현재 디바이스에 대한 설정 값 반환
   return dapp.visibility.platform[currentDevice] === true;
 }
@@ -29,11 +24,6 @@ export function filterLanguage(
     return true;
   }
 
-  // 현재 언어에 대한 설정이 없으면 기본적으로 표시
-  if (dapp.visibility.language[currentLanguage] === undefined) {
-    return true;
-  }
-
   // 현재 언어에 대한 설정 값 반환
   return dapp.visibility.language[currentLanguage] === true;
 }
@@ -45,11 +35,6 @@ export function filterEnvironment(
   >
 ): boolean {
   if (!dapp.visibility?.environment) {
-    return true;
-  }
-
-  // 현재 환경에 대한 설정이 없으면 기본적으로 표시
-  if (dapp.visibility.environment[currentEnvironment] === undefined) {
     return true;
   }
 
