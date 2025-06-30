@@ -1,7 +1,9 @@
 import { type HTMLAttributes, type PropsWithChildren } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { twMerge } from "tailwind-merge";
 
-interface ModalRootProps extends PropsWithChildren {
+interface ModalRootProps
+  extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
   isOpen: boolean;
 }
 
@@ -13,12 +15,15 @@ interface ModalBodyProps
   extends HTMLAttributes<HTMLDivElement>,
     PropsWithChildren {}
 
-function ModalRoot({ isOpen, children }: ModalRootProps) {
+export function ModalRoot({ className, isOpen, children }: ModalRootProps) {
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          className={twMerge(
+            "fixed inset-0 z-50 flex items-center justify-center",
+            className
+          )}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -31,7 +36,11 @@ function ModalRoot({ isOpen, children }: ModalRootProps) {
   );
 }
 
-function ModalBackdrop({ onClick, className, style }: ModalBackdropProps) {
+export function ModalBackdrop({
+  onClick,
+  className,
+  style,
+}: ModalBackdropProps) {
   return (
     <motion.div
       className={`fixed inset-0 bg-black/50 ${className || ""}`}
