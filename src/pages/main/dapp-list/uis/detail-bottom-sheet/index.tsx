@@ -26,7 +26,7 @@ function DetailBottomSheet({
     onClose();
   };
 
-  const description = dappInfo.description[language] || dappInfo.description.en || "설명이 없습니다.";
+  const description = dappInfo.description[language];
 
   return (
     <BottomSheet
@@ -60,21 +60,22 @@ function DetailBottomSheet({
         </div>
 
         {/* Networks */}
-        {dappInfo.supportedNetworks && dappInfo.supportedNetworks.length > 0 && (
-          <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-sm text-gray-600 mb-2">지원 네트워크:</p>
-            <div className="flex flex-wrap gap-2">
-              {dappInfo.supportedNetworks.map((network) => (
-                <span
-                  key={network}
-                  className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
-                >
-                  {network}
-                </span>
-              ))}
+        {dappInfo.supportedNetworks &&
+          dappInfo.supportedNetworks.length > 0 && (
+            <div className="bg-gray-50 rounded-lg p-3">
+              <p className="text-sm text-gray-600 mb-2">지원 네트워크:</p>
+              <div className="flex flex-wrap gap-2">
+                {dappInfo.supportedNetworks.map((network) => (
+                  <span
+                    key={network}
+                    className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                  >
+                    {network}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* 설명 섹션 */}
         <div className="space-y-3">
