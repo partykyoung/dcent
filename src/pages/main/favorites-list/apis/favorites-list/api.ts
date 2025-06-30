@@ -43,24 +43,23 @@ export const deleteFavoriteInDev = (
   id: string
 ): Promise<DeleteFavoriteResponse> => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const index = FAVORITES_LIST.findIndex((item) => item.id === id);
+    const index = FAVORITES_LIST.findIndex((item) => item.id === id);
 
-      if (index === -1) {
-        reject({
-          success: false,
-          message: `Favorite item with id '${id}' not found`,
-        });
-        return;
-      }
-
-      // Mock에서는 실제로 삭제하지 않고 성공 응답만 반환
-      resolve({
-        success: true,
-        message: "Favorite item deleted successfully",
-        deletedId: id,
+    if (index === -1) {
+      reject({
+        success: false,
+        message: `Favorite item with id '${id}' not found`,
       });
-    }, 800);
+      return;
+    }
+
+    FAVORITES_LIST.splice(index, 1);
+
+    resolve({
+      success: true,
+      message: "Favorite item deleted successfully",
+      deletedId: id,
+    });
   });
 };
 

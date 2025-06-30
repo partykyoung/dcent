@@ -15,7 +15,7 @@
   "error_load_favorites": "Unable to load favorites.",
   "no_favorites": "No favorites yet.",
   "no_favorites_description": "Add DApps to your favorites!",
-  "favorites_count": "Favorites",
+  "favorites": "Favorites",
   "delete_favorite_confirm": "Do you want to delete from favorites?",
   "delete_failed": "Delete failed:"
 }

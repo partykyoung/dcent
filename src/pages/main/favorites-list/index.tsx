@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
@@ -9,6 +9,7 @@ import {
   deleteFavoriteInDev,
 } from "./apis/favorites-list/api";
 import type { FavoriteItem } from "./apis/favorites-list/schema";
+import { DeleteModal } from "./uis/delete-modal";
 
 const isDev = import.meta.env.DEV;
 
@@ -18,11 +19,7 @@ interface FavoriteItemProps {
   isDeleting?: boolean;
 }
 
-function FavoriteItemComponent({
-  favorite,
-  onDelete,
-  isDeleting,
-}: FavoriteItemProps) {
+function FavoriteItem({ favorite, onDelete, isDeleting }: FavoriteItemProps) {
   const handleItemClick = () => {
     window.open(favorite.url, "_blank");
   };
@@ -92,85 +89,109 @@ function FavoriteItemComponent({
 function FavoritesList() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteModalState, setDeleteModalState] = useState<{
+    isOpen: boolean;
+    itemId: string | null;
+    itemName: string | null;
+  }>({
+    isOpen: false,
+    itemId: null,
+    itemName: null,
+  });
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["favoritesList"],
     queryFn: isDev ? fetchFavoritesListInDev : fetchFavoritesList,
   });
 
+  const deletingId = useRef<string | null>(null);
+
   const deleteMutation = useMutation({
     mutationFn: isDev ? deleteFavoriteInDev : deleteFavorite,
     onMutate: (id: string) => {
-      setDeletingId(id);
+      deletingId.current = id;
     },
     onSuccess: () => {
-      // 성공 시 리스트 다시 가져오기
-      queryClient.invalidateQueries({ queryKey: ["favoritesList"] });
-    },
-    onError: (error) => {
-      console.error(t('delete_failed'), error);
-      // 에러 토스트나 알림을 여기에 추가할 수 있습니다
+      if (!isDev) {
+        queryClient.invalidateQueries({ queryKey: ["favoritesList"] });
+      }
     },
     onSettled: () => {
-      setDeletingId(null);
+      deletingId.current = null;
     },
   });
 
   const handleDelete = (id: string) => {
-    if (confirm(t('delete_favorite_confirm'))) {
-      deleteMutation.mutate(id);
+    const item = data?.find((favorite: FavoriteItem) => favorite.id === id);
+    setDeleteModalState({
+      isOpen: true,
+      itemId: id,
+      itemName: item?.name || null,
+    });
+  };
+
+  const confirmDelete = () => {
+    if (deleteModalState.itemId) {
+      deleteMutation.mutate(deleteModalState.itemId);
+      setDeleteModalState({ isOpen: false, itemId: null, itemName: null });
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center p-12">
-        <span className="loading loading-spinner loading-lg" />
-        <p className="mt-4 text-base-content/70">{t('loading_favorites')}</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center p-12">
-        <p className="text-error">{t('error_load_favorites')}</p>
-      </div>
-    );
-  }
-
-  if (!data || data.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center p-12">
-        <div className="text-6xl mb-4">⭐</div>
-        <p className="text-base-content/70 text-center">
-          {t('no_favorites')}
-          <br />
-          {t('no_favorites_description')}
-        </p>
-      </div>
-    );
-  }
+  const cancelDelete = () => {
+    setDeleteModalState({ isOpen: false, itemId: null, itemName: null });
+  };
 
   return (
     <div className="w-full">
       <div className="mb-4 px-4">
         <h2 className="text-lg font-semibold text-base-content">
-          {t('favorites_count', { count: data.length })}
+          {t("favorites")}
         </h2>
       </div>
-
-      <div className="bg-base-100 rounded-lg overflow-hidden">
-        {data.map((favorite) => (
-          <FavoriteItemComponent
-            key={favorite.id}
-            favorite={favorite}
-            onDelete={handleDelete}
-            isDeleting={deletingId === favorite.id}
-          />
-        ))}
-      </div>
+      {isLoading && (
+        <div className="flex flex-col items-center justify-center p-12">
+          <span className="loading loading-spinner loading-lg" />
+          <p className="mt-4 text-base-content/70">{t("loading_favorites")}</p>
+        </div>
+      )}
+      {error && (
+        <div className="flex flex-col items-center justify-center p-12">
+          <p className="text-error">{t("error_load_favorites")}</p>
+        </div>
+      )}
+      {data && (
+        <>
+          {data.length === 0 && (
+            <>
+              <div className="flex flex-col items-center justify-center p-12">
+                <p className="text-base-content/70 text-center">
+                  {t("no_favorites")}
+                  <br />
+                  {t("no_favorites_description")}
+                </p>
+              </div>
+            </>
+          )}
+          {data.length > 0 && (
+            <ul className="w-full">
+              {data.map((favorite) => (
+                <FavoriteItem
+                  key={favorite.id}
+                  favorite={favorite}
+                  onDelete={handleDelete}
+                  isDeleting={deletingId.current === favorite.id}
+                />
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+      <DeleteModal
+        isOpen={deleteModalState.isOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        siteName={deleteModalState.itemName || undefined}
+      />
     </div>
   );
 }
