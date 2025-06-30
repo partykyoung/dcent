@@ -30,12 +30,12 @@ function FavoriteItem({ favorite, onDelete, isDeleting }: FavoriteItemProps) {
   };
 
   return (
-    <div className="flex items-center justify-between p-4 hover:bg-base-200 cursor-pointer transition-colors border-b border-base-300 last:border-b-0">
+    <div className="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer transition-colors border-b border-gray-200 last:border-b-0">
       <div
         className="flex items-center flex-1 min-w-0"
         onClick={handleItemClick}
       >
-        <div className="avatar mr-4">
+        <div className="flex items-center mr-4">
           <div className="w-12 h-12 rounded-xl">
             <img
               src={favorite.icon}
@@ -49,22 +49,20 @@ function FavoriteItem({ favorite, onDelete, isDeleting }: FavoriteItemProps) {
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-base text-base-content truncate">
+          <h3 className="font-medium text-base text-gray-900 truncate">
             {favorite.name}
           </h3>
-          <p className="text-sm text-base-content/70 truncate mt-1">
-            {favorite.url}
-          </p>
+          <p className="text-sm text-gray-600 truncate mt-1">{favorite.url}</p>
         </div>
       </div>
 
       <button
-        className="btn btn-ghost btn-sm ml-2 text-error hover:bg-error/10"
+        className="px-2 py-1 text-sm text-red-600 hover:bg-red-50 rounded transition-colors ml-2"
         onClick={handleDeleteClick}
         disabled={isDeleting}
       >
         {isDeleting ? (
-          <span className="loading loading-spinner loading-xs" />
+          <div className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -143,18 +141,18 @@ function FavoritesList() {
 
   return (
     <div className="w-full">
-      <h2 className="p-4 text-lg font-semibold text-base-content">
+      <h2 className="p-4 text-lg font-semibold text-gray-900">
         {t("favorites")}
       </h2>
       {isLoading && (
         <div className="flex flex-col items-center justify-center p-12">
-          <span className="loading loading-spinner loading-lg" />
-          <p className="mt-4 text-base-content/70">{t("loading_favorites")}</p>
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="mt-4 text-gray-600">{t("loading_favorites")}</p>
         </div>
       )}
       {error && (
         <div className="flex flex-col items-center justify-center p-12">
-          <p className="text-error">{t("error_load_favorites")}</p>
+          <p className="text-red-600">{t("error_load_favorites")}</p>
         </div>
       )}
       {data && (
@@ -162,7 +160,7 @@ function FavoritesList() {
           {data.length === 0 && (
             <>
               <div className="flex flex-col items-center justify-center p-12">
-                <p className="text-base-content/70 text-center">
+                <p className="text-gray-600 text-center">
                   {t("no_favorites")}
                   <br />
                   {t("no_favorites_description")}

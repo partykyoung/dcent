@@ -4,7 +4,7 @@
 
 ### Vite + React
 
-### Tailwind + Daisy UI
+### Tailwind CSS
 
 ## 프로젝트 실행 및 빌드 방법 설명
 
