@@ -1,8 +1,10 @@
 import { DappList } from "./dapp-list";
+import { FavoritesList } from "./favorites-list";
 
 function MainPage() {
   return (
-    <div>
+    <div className="w-full max-w-md mx-auto">
+      <FavoritesList />
       <DappList />
     </div>
   );

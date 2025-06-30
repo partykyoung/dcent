@@ -86,7 +86,7 @@ function DappList() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full">
       {isLoading && (
         <div className="flex flex-col items-center justify-center p-12">
           <span className="loading loading-spinner loading-lg" />
