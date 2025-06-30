@@ -103,7 +103,11 @@ function DappList() {
           <p className="mt-4 text-gray-600">{t("loading_list")}</p>
         </div>
       )}
-      {error && <div>{t("error_load_list")}</div>}
+      {error && (
+        <div className="flex flex-col items-center justify-center p-12">
+          <p className="text-red-600">{t("error_load_list")}</p>
+        </div>
+      )}
       {data && (
         <>
           {data.length === 0 && <></>}
