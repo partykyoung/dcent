@@ -1,4 +1,4 @@
-import { get } from "../../../../shared/libs/api";
+import { get } from "../../../../../shared/libs/api";
 import type { DappItem } from "./schema";
 
 const DAPP_LIST: DappItem[] = [
@@ -131,7 +131,11 @@ const DAPP_LIST: DappItem[] = [
  * @returns Promise<DappItem[]> DAPP 리스트
  */
 export const fetchDappListInDev = (): Promise<DappItem[]> => {
-  return Promise.resolve(DAPP_LIST);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(DAPP_LIST);
+    }, 3000);
+  });
 };
 
 /**

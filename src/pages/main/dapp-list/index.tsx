@@ -1,4 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
+import { fetchDappList, fetchDappListInDev } from "./apis/dapp-list/api";
 import type { DappItem as DappItemType } from "./apis/dapp-list/schema";
+import { filterDappList } from "./utils/filter-dapp-list";
+import { useAtomValue } from "jotai";
+import {
+  currentDeviceAtom,
+  currentLanguageAtom,
+} from "../../../app/stores/environment";
+
+const isDev = import.meta.env.DEV;
 
 interface DappItemProps {
   dapp: DappItemType;
@@ -82,72 +92,52 @@ function DappItem({ dapp, onItemClick, language = "ko" }: DappItemProps) {
   );
 }
 
-interface DappListProps {
-  dapps: DappItemType[];
-  onItemClick?: (dapp: DappItemType) => void;
-  language?: "en" | "ko";
-  loading?: boolean;
-  emptyMessage?: string;
-}
+function DappList() {
+  const currentDevice = useAtomValue(currentDeviceAtom);
+  const currentLanguage = useAtomValue(currentLanguageAtom);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["dappList"],
+    queryFn: isDev ? fetchDappListInDev : fetchDappList,
+    select: (data) => {
+      return filterDappList({
+        dappList: data,
+        currentDevice,
+        currentLanguage,
+        currentEnvironment: import.meta.env.MODE,
+      });
+    },
+  });
 
-function DappList({
-  dapps,
-  onItemClick,
-  language = "ko",
-  loading = false,
-  emptyMessage = "사용 가능한 DApp이 없습니다.",
-}: DappListProps) {
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center p-12">
-        <span className="loading loading-spinner loading-lg"></span>
-        <p className="mt-4 text-base-content/70">DApp 목록을 불러오는 중...</p>
-      </div>
-    );
-  }
-
-  if (dapps.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center p-12">
-        <div className="w-16 h-16 rounded-full bg-base-200 flex items-center justify-center mb-4">
-          <svg
-            className="w-8 h-8 text-base-content/30"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-            />
-          </svg>
-        </div>
-        <p className="text-base-content/70 text-center">{emptyMessage}</p>
-      </div>
-    );
-  }
+  console.log(data);
 
   return (
-    <div className="bg-base-100">
-      <div className="p-4 bg-base-200 border-b border-base-300">
-        <h2 className="text-lg font-semibold text-base-content">디앱</h2>
-        <p className="text-sm text-base-content/70 mt-1">
-          {dapps.length}개의 DApp
-        </p>
-      </div>
-
-      <div className="divide-y divide-base-300">
-        {dapps.map((dapp) => (
-          <DappItem
-            key={dapp.id}
-            dapp={dapp}
-            onItemClick={onItemClick}
-            language={language}
-          />
-        ))}
-      </div>
+    <div className="w-full max-w-md mx-auto">
+      {isLoading && (
+        <div className="flex flex-col items-center justify-center p-12">
+          <span className="loading loading-spinner loading-lg" />
+          <p className="mt-4 text-base-content/70">목록을 불러오는 중...</p>
+        </div>
+      )}
+      {error && <div>목록을 불러올 수 없습니다.</div>}
+      {data && (
+        <>
+          {data.length === 0 && <></>}
+          {data.length > 0 && (
+            <ul>
+              <li className="mb-[16px]">
+                {data.map((dapp) => (
+                  <DappItem
+                    key={dapp.id}
+                    dapp={dapp}
+                    // onItemClick={onItemClick}
+                    // language={language}
+                  />
+                ))}
+              </li>
+            </ul>
+          )}
+        </>
+      )}
     </div>
   );
 }
