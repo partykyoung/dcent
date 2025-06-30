@@ -11,13 +11,18 @@ import {
   currentLanguageAtom,
 } from "../../../app/stores/environment";
 import DetailBottomSheet from "./uis/detail-bottom-sheet";
+import type {
+  Language,
+  Device,
+  Environment,
+} from "../../../shared/types/common";
 
 const isDev = import.meta.env.DEV;
 
 interface DappItemProps {
   dapp: DappItemType;
   onItemClick?: (dapp: DappItemType) => void;
-  language?: "en" | "ko";
+  language?: Language;
 }
 
 function DappItem({ dapp, onItemClick, language = "ko" }: DappItemProps) {
@@ -70,9 +75,9 @@ function DappList() {
     select: (data) => {
       return filterDappList({
         dappList: data,
-        currentDevice: currentDevice as "android" | "ios",
-        currentLanguage: currentLanguage as "en" | "ko",
-        currentEnvironment: import.meta.env.MODE as "dev" | "stage" | "prod",
+        currentDevice: currentDevice as Device,
+        currentLanguage: currentLanguage as Language,
+        currentEnvironment: import.meta.env.MODE as Environment,
       });
     },
   });
@@ -107,7 +112,7 @@ function DappList() {
                     key={dapp.id}
                     dapp={dapp}
                     onItemClick={handleDappClick}
-                    language={currentLanguage as "en" | "ko"}
+                    language={currentLanguage as Language}
                   />
                 ))}
               </li>
@@ -120,7 +125,7 @@ function DappList() {
           isOpen={isBottomSheetOpen}
           onClose={handleBottomSheetClose}
           dappInfo={selectedDapp}
-          language={currentLanguage as "en" | "ko"}
+          language={currentLanguage as Language}
         />
       )}
     </div>

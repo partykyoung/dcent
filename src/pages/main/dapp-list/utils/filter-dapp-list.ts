@@ -1,45 +1,53 @@
 import type { DappItem } from "../apis/dapp-list/schema";
+import type {
+  Device,
+  Language,
+  Environment,
+} from "../../../../shared/types/common";
 
-export function filterPlatform(
-  dapp: DappItem,
-  currentDevice: keyof NonNullable<
-    NonNullable<DappItem["visibility"]>["platform"]
-  >
-): boolean {
+export function filterPlatform(dapp: DappItem, currentDevice: Device): boolean {
   if (!dapp.visibility?.platform) {
     return true;
   }
 
   // 현재 디바이스에 대한 설정 값 반환
-  return dapp.visibility.platform[currentDevice] === true;
+  return (
+    dapp.visibility.platform[
+      currentDevice as keyof typeof dapp.visibility.platform
+    ] === true
+  );
 }
 
 export function filterLanguage(
   dapp: DappItem,
-  currentLanguage: keyof NonNullable<
-    NonNullable<DappItem["visibility"]>["language"]
-  >
+  currentLanguage: Language
 ): boolean {
   if (!dapp.visibility?.language) {
     return true;
   }
 
   // 현재 언어에 대한 설정 값 반환
-  return dapp.visibility.language[currentLanguage] === true;
+  return (
+    dapp.visibility.language[
+      currentLanguage as keyof typeof dapp.visibility.language
+    ] === true
+  );
 }
 
 export function filterEnvironment(
   dapp: DappItem,
-  currentEnvironment: keyof NonNullable<
-    NonNullable<DappItem["visibility"]>["environment"]
-  >
+  currentEnvironment: Environment
 ): boolean {
   if (!dapp.visibility?.environment) {
     return true;
   }
 
   // 현재 환경에 대한 설정 값 반환
-  return dapp.visibility.environment[currentEnvironment] === true;
+  return (
+    dapp.visibility.environment[
+      currentEnvironment as keyof typeof dapp.visibility.environment
+    ] === true
+  );
 }
 
 export function filterDappList({
@@ -49,15 +57,9 @@ export function filterDappList({
   currentEnvironment,
 }: {
   dappList: DappItem[];
-  currentDevice: keyof NonNullable<
-    NonNullable<DappItem["visibility"]>["platform"]
-  >;
-  currentLanguage: keyof NonNullable<
-    NonNullable<DappItem["visibility"]>["language"]
-  >;
-  currentEnvironment: keyof NonNullable<
-    NonNullable<DappItem["visibility"]>["environment"]
-  >;
+  currentDevice: Device;
+  currentLanguage: Language;
+  currentEnvironment: Environment;
 }): DappItem[] {
   return dappList.filter((dapp) => {
     // visibility가 없으면 모든 조건에서 표시

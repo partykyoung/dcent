@@ -1,28 +1,5 @@
 import { get } from "../../../../../shared/libs/api";
-
-interface BannerData {
-  id: string;
-  image: {
-    en: string;
-    ko: string;
-  };
-  title: {
-    en: string;
-    ko: string;
-  };
-  description: {
-    en: string;
-    ko: string;
-  };
-  link: {
-    en: string;
-    ko: string;
-  };
-  buttonText: {
-    en: string;
-    ko: string;
-  };
-}
+import type { BannerData } from "./schema";
 
 // Mock data for banner list
 const mockBannerData: BannerData[] = [

@@ -6,12 +6,13 @@ import {
   BottomSheetBody,
 } from "../../../../../shared/components/ui/bottom-sheet";
 import type { DappItem } from "../../apis/dapp-list/schema";
+import type { Language } from "../../../../../shared/types/common";
 
 interface DetailBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   dappInfo: DappItem;
-  language?: "en" | "ko";
+  language?: Language;
 }
 
 function DetailBottomSheet({
