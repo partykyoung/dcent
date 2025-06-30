@@ -43,7 +43,7 @@ function BottomSheetBody({
       exit={{ y: "100%" }}
       transition={{ type: "spring", damping: 25, stiffness: 300 }}
     >
-      <div className="px-6 pb-6 max-h-[calc(90vh-48px)] overflow-y-auto">
+      <div className="px-6 py-6 max-h-[calc(90vh-48px)] overflow-y-auto">
         {children}
       </div>
     </motion.div>

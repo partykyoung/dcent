@@ -92,10 +92,10 @@ function DappList() {
       {isLoading && (
         <div className="flex flex-col items-center justify-center p-12">
           <span className="loading loading-spinner loading-lg" />
-          <p className="mt-4 text-base-content/70">{t('loading_list')}</p>
+          <p className="mt-4 text-base-content/70">{t("loading_list")}</p>
         </div>
       )}
-      {error && <div>{t('error_load_list')}</div>}
+      {error && <div>{t("error_load_list")}</div>}
       {data && (
         <>
           {data.length === 0 && <></>}
@@ -115,12 +115,14 @@ function DappList() {
           )}
         </>
       )}
-      <DetailBottomSheet
-        isOpen={isBottomSheetOpen}
-        onClose={handleBottomSheetClose}
-        dappInfo={selectedDapp}
-        language={currentLanguage as "en" | "ko"}
-      />
+      {isBottomSheetOpen && selectedDapp && (
+        <DetailBottomSheet
+          isOpen={isBottomSheetOpen}
+          onClose={handleBottomSheetClose}
+          dappInfo={selectedDapp}
+          language={currentLanguage as "en" | "ko"}
+        />
+      )}
     </div>
   );
 }
